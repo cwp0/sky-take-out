@@ -47,4 +47,14 @@ public interface EmployeeMapper {
      * @CreatedTime: 2024/7/10 17:40
      */
     void update(Employee employee);
+
+    /**
+     * @Description: 根据id查询员工信息
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.entity.Employee
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 19:39
+     */
+    @Select("select * from employee where id = #{id}")
+    Employee getById(Long id);
 }

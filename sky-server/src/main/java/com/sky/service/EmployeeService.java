@@ -43,4 +43,22 @@ public interface EmployeeService {
      */
     void startOrStop(Long id, Integer status);
 
+    /**
+     * @Description: 根据id查询员工
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.entity.Employee
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 19:37
+     */
+    Employee getById(Long id);
+
+    /**
+     * @Description: 编辑员工信息
+     * @Param: employeeDTO      {com.sky.dto.EmployeeDTO}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 19:46
+     */
+    void  update(EmployeeDTO employeeDTO);
+
 }

@@ -114,10 +114,40 @@ public class EmployeeController {
      * @Author: cwp0
      * @CreatedTime: 2024/7/10 17:09
      */
+    @ApiOperation(value = "员工状态的启用和禁用")
     @PostMapping("/status/{status}")
     public Result startOrStop(@PathVariable("status") Integer status, Long id) { // 路径参数，所以加一个@PathVariable
         log.info("员工状态的启用和禁用，员工id：{}，状态：{}，", id, status);
         employeeService.startOrStop(id, status);
+        return Result.success();
+    }
+
+    /**
+     * @Description: 根据id查询员工
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.result.Result<com.sky.entity.Employee>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 19:35
+     */
+    @ApiOperation(value = "根据id查询员工")
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id) {
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * @Description: 编辑员工相关信息
+     * @Param: employeeDTO      {com.sky.dto.EmployeeDTO}
+     * @Return: com.sky.result.Result
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 19:44
+     */
+    @ApiOperation(value = "编辑员工相关信息")
+    @PutMapping
+    public Result update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工相关信息：{}", employeeDTO);
+        employeeService.update(employeeDTO);
         return Result.success();
     }
 
