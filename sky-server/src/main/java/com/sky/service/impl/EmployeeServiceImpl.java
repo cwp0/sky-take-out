@@ -110,4 +110,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total, records);
     }
 
+    /**
+     * @Description: 员工账号状态的启用和禁用
+     * @Param: id      {java.lang.Long}
+     * @Param: status      {java.lang.Integer}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 17:37
+     */
+    public void startOrStop(Long id, Integer status) {
+        Employee employee =new Employee();
+        employee.setId(id);
+        employee.setStatus(status);
+
+        employeeMapper.update(employee);
+    }
+
 }

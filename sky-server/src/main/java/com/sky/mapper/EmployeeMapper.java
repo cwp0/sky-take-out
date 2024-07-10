@@ -39,4 +39,12 @@ public interface EmployeeMapper {
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
+    /**
+     * @Description: 根据主键动态修改员工数据
+     * @Param: employee      {com.sky.entity.Employee}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 17:40
+     */
+    void update(Employee employee);
 }

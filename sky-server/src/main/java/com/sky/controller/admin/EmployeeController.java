@@ -106,4 +106,19 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * @Description: 员工账号状态的启用和禁用
+     * @Param: status      {java.lang.Integer}
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.result.Result
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 17:09
+     */
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable("status") Integer status, Long id) { // 路径参数，所以加一个@PathVariable
+        log.info("员工状态的启用和禁用，员工id：{}，状态：{}，", id, status);
+        employeeService.startOrStop(id, status);
+        return Result.success();
+    }
+
 }

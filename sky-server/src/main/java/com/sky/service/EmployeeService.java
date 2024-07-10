@@ -33,4 +33,14 @@ public interface EmployeeService {
      */
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 
+    /**
+     * @Description: 员工账号状态的启用和禁用
+     * @Param: id      {java.lang.Long}
+     * @Param: status      {java.lang.Integer}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/10 17:35
+     */
+    void startOrStop(Long id, Integer status);
+
 }
