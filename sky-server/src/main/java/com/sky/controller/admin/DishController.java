@@ -106,5 +106,21 @@ public class DishController {
         return Result.success();
     }
 
+    /**
+     * @Description: 修改菜品状态
+     * @Param: id      {java.lang.Long}
+     * @Param: status      {java.lang.Integer}
+     * @Return: com.sky.result.Result
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:45
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation(value = "修改菜品状态")
+    public Result editStatus(@RequestParam Long id, @PathVariable Integer status) {
+        log.info("修改菜品状态：id={}, status={}", id, status);
+        dishService.editStatus(id, status);
+        return Result.success();
+    }
+
 }
 

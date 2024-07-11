@@ -61,4 +61,14 @@ public interface DishService {
      * @CreatedTime: 2024/7/11 19:27
      */
     void updateWithFlavor(DishDTO dishDTO);
+
+    /**
+     * @Description: 修改菜品状态
+     * @Param: id      {java.lang.Long}
+     * @Param: status      {java.lang.Integer}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:45
+     */
+    void editStatus(Long id, Integer status);
 }

@@ -170,6 +170,20 @@ public class DishServiceImpl implements DishService {
             dishFlavorMapper.insertBatch(flavors);
         }
     }
-    
+
+    /**
+     * @Description: 修改菜品状态
+     * @Param: id      {java.lang.Long}
+     * @Param: status      {java.lang.Integer}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:46
+     */
+    public void editStatus(Long id, Integer status) {
+        Dish dish = new Dish();
+        dish.setId(id);
+        dish.setStatus(status);
+        dishMapper.update(dish);
+    }
 }
 
