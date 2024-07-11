@@ -1,6 +1,8 @@
 package com.sky.service;
 
 import com.sky.dto.DishDTO;
+import com.sky.dto.DishPageQueryDTO;
+import com.sky.result.PageResult;
 
 /**
  * @Program: sky-take-out
@@ -20,4 +22,13 @@ public interface DishService {
      * @CreatedTime: 2024/7/11 13:31
      */
     public void saveWithFlavor(DishDTO dishDTO);
+
+    /**
+     * @Description: 菜品分页查询
+     * @Param: dishPageQueryDTO      {com.sky.dto.DishPageQueryDTO}
+     * @Return: com.sky.result.PageResult
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 15:59
+     */
+    PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
 }
