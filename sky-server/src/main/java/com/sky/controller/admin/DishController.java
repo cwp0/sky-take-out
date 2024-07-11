@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Program: sky-take-out
  * @Package: com.sky.controller.admin
@@ -56,6 +58,21 @@ public class DishController {
         log.info("菜品分页查询：{}", dishPageQueryDTO);
         PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    /**
+     * @Description: 根据ids批量删除菜品
+     * @Param: ids      {java.util.List<java.lang.Long>}
+     * @Return: com.sky.result.Result
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 16:29
+     */
+    @DeleteMapping
+    @ApiOperation(value = "批量删除菜品")
+    public Result delete(@RequestParam List<Long> ids) { // 加了 @RequestParam 注解后，MVC框架会动态解析字符串，并把id提取出来，封装到ids中
+        log.info("批量删除菜品：{}", ids);
+        dishService.deleteBanch(ids);
+        return Result.success();
     }
 
 }

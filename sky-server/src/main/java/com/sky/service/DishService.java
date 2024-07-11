@@ -4,6 +4,8 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
 
+import java.util.List;
+
 /**
  * @Program: sky-take-out
  * @Package: com.sky.service
@@ -31,4 +33,13 @@ public interface DishService {
      * @CreatedTime: 2024/7/11 15:59
      */
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    /**
+     * @Description: 菜品批量删除
+     * @Param: ids      {java.util.List<java.lang.Long>}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 16:30
+     */
+    void deleteBanch(List<Long> ids);
 }
