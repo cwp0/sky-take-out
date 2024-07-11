@@ -5,6 +5,7 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
+import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +73,36 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids) { // 加了 @RequestParam 注解后，MVC框架会动态解析字符串，并把id提取出来，封装到ids中
         log.info("批量删除菜品：{}", ids);
         dishService.deleteBanch(ids);
+        return Result.success();
+    }
+
+    /**
+     * @Description: 根据id查询菜品详情
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.result.Result<com.sky.vo.DishVO>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:15
+     */
+    @GetMapping("/{id}")
+    @ApiOperation(value = "根据id查询菜品")
+    public Result<DishVO> getById(@PathVariable Long id) { // @PathVariable注解用于获取url中的参数
+        log.info("根据id查询菜品：{}", id);
+        DishVO dishVO = dishService.getByIdWithFlavor(id);
+        return Result.success(dishVO);
+    }
+
+    /**
+     * @Description: 根据id修改菜品信息和对应的口味信息
+     * @Param: dishDTO      {com.sky.dto.DishDTO}
+     * @Return: com.sky.result.Result<com.sky.dto.DishDTO>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:26
+     */
+    @PutMapping
+    @ApiOperation(value = "修改菜品")
+    public Result<DishDTO> update(@RequestBody DishDTO dishDTO) { // @RequestBody注解用于接收前端传递的json数据
+        log.info("修改菜品：{}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
         return Result.success();
     }
 

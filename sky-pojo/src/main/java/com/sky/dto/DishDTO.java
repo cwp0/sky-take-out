@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Data // 自动生成getter、setter、toString、equals、hashCode方法
 public class DishDTO implements Serializable {
 
     private Long id;

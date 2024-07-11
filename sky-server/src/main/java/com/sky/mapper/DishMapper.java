@@ -70,4 +70,14 @@ public interface DishMapper {
      * @CreatedTime: 2024/7/11 18:57
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * @Description: 根据主键id动态修改菜品数据
+     * @Param: dish      {com.sky.entity.Dish}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/11 19:31
+     */
+    @AutoFill(OperationType.UPDATE) // 修改数据时自动填充操作人、操作时间
+    void update(Dish dish);
 }
