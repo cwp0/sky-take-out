@@ -71,7 +71,7 @@ public interface DishService {
      * @Author: cwp0
      * @CreatedTime: 2024/7/11 19:45
      */
-    void editStatus(Long id, Integer status);
+    void startOrStop(Long id, Integer status);
 
     /**
      * 条件查询菜品和口味
