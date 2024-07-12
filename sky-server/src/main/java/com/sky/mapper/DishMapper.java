@@ -80,4 +80,12 @@ public interface DishMapper {
      */
     @AutoFill(OperationType.UPDATE) // 修改数据时自动填充操作人、操作时间
     void update(Dish dish);
+
+    /**
+     * 动态条件查询菜品
+     * @param dish
+     * @return
+     */
+    List<Dish> list(Dish dish);
+
 }
