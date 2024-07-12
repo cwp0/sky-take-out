@@ -6,3 +6,5 @@
 **/test/
 /nginx-1.20.2
 mp-weixin
+mp-demo1
+springcache-demo
