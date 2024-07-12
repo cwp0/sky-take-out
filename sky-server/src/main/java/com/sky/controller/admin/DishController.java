@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Program: sky-take-out
@@ -32,6 +34,9 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * @Description: 新增菜品
      * @Param: dishDTO      {com.sky.dto.DishDTO}
@@ -44,6 +49,11 @@ public class DishController {
     public Result save(@RequestBody DishDTO dishDTO) { // @RequestBody注解用于接收前端传递的json数据
         log.info("新增菜品：{}", dishDTO);
         dishService.saveWithFlavor(dishDTO);
+
+        // 清理缓存数据
+        String key = "dish_" + dishDTO.getCategoryId();
+        cleanCache(key);
+
         return Result.success();
     }
 
@@ -74,6 +84,10 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids) { // 加了 @RequestParam 注解后，MVC框架会动态解析字符串，并把id提取出来，封装到ids中
         log.info("批量删除菜品：{}", ids);
         dishService.deleteBanch(ids);
+
+        // 将所有分类的菜品缓存都清理掉
+        cleanCache("dish_*");
+
         return Result.success();
     }
 
@@ -104,6 +118,11 @@ public class DishController {
     public Result<DishDTO> update(@RequestBody DishDTO dishDTO) { // @RequestBody注解用于接收前端传递的json数据
         log.info("修改菜品：{}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
+
+        // 将所有分类的菜品缓存都清理掉
+        cleanCache("dish_*");
+
+
         return Result.success();
     }
 
@@ -120,6 +139,10 @@ public class DishController {
     public Result startOrStop(@RequestParam Long id, @PathVariable Integer status) {
         log.info("菜品起售停售：id={}, status={}", id, status);
         dishService.startOrStop(id, status);
+
+        // 将所有分类的菜品缓存都清理掉
+        cleanCache("dish_*");
+
         return Result.success();
     }
 
@@ -133,6 +156,18 @@ public class DishController {
     public Result<List<Dish>> list(Long categoryId){
         List<Dish> list = dishService.list(categoryId);
         return Result.success(list);
+    }
+
+    /**
+     * @Description: 清理缓存数据
+     * @Param: pattern      {java.lang.String}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/12 21:23
+     */
+    private void cleanCache(String pattern) {
+        Set keys = redisTemplate.keys(pattern);
+        redisTemplate.delete(keys);
     }
 
 }
