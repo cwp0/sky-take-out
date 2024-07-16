@@ -1,8 +1,10 @@
 package com.sky.mapper;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.data.domain.Page;
 
 /**
  * @Program: sky-take-out
@@ -38,4 +40,22 @@ public interface OrderMapper {
      */
     void update(Orders orders);
 
+    /**
+     * @Description: 分页条件查询，并按照下单时间排序
+     * @Param: ordersPageQueryDTO      {com.sky.dto.OrdersPageQueryDTO}
+     * @Return: org.springframework.data.domain.Page<com.sky.entity.Orders>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 17:16
+     */
+    Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    /**
+     * @Description: 根据id查询订单信息
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.entity.Orders
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 19:17
+     */
+    @Select("select * from orders where id = #{id}")
+    Orders getById(Long id);
 }

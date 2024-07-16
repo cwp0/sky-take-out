@@ -68,4 +68,13 @@ public interface ShoppingCartMapper {
      */
     @Delete("delete from shopping_cart where id = #{id}")
     void deleteById(Long id);
+
+    /**
+     * @Description: 批量插入购物车数据
+     * @Param: shoppingCartList      {java.util.List<com.sky.entity.ShoppingCart>}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 20:00
+     */
+    void insertBatch(List<ShoppingCart> shoppingCartList);
 }

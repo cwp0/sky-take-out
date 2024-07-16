@@ -19,4 +19,11 @@
             </if>
         </where>
     </select>
+    <insert id="insertBatch" parameterType="list"> # parameterType是传入的参数类型
+        insert into shopping_cart (name, image, user_id, dish_id, setmeal_id, dish_flavor, number, amount, create_time)
+        values
+        <foreach collection="shoppingCartList" item="sc" separator=","> # shoppingCartList是传入的参数，必须与ShoppingCartMapper.java中形参一样，item是每个元素，separator是分隔符
+            (#{sc.name}, #{sc.image}, #{sc.userId}, #{sc.dishId}, #{sc.setmealId}, #{sc.dishFlavor}, #{sc.number}, #{sc.amount}, #{sc.createTime})
+        </foreach>
+    </insert>
 </mapper>

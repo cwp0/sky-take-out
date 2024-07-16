@@ -2,8 +2,10 @@ package com.sky.service;
 
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.result.PageResult;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 
 /**
  * @Program: sky-take-out
@@ -38,4 +40,41 @@ public interface OrderService {
      */
     void paySuccess(String outTradeNo);
 
+    /**
+     * @Description: 用户端订单分页查询
+     * @Param: page      {int}
+     * @Param: pageSize      {int}
+     * @Param: status      {java.lang.Integer}
+     * @Return: com.sky.result.PageResult
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 17:11
+     */
+    PageResult pageQuery4User(int page, int pageSize, Integer status);
+
+    /**
+     * @Description: 查询订单详情
+     * @Param: id      {java.lang.Long}
+     * @Return: com.sky.vo.OrderVO
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 18:19
+     */
+    OrderVO details(Long id);
+
+    /**
+     * @Description: 用户取消订单
+     * @Param: id      {java.lang.Long}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 19:20
+     */
+    void userCancelById(Long id) throws Exception;
+
+    /**
+     * @Description: 再来一单
+     * @Param: id      {java.lang.Long}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 19:47
+     */
+    void repetition(Long id);
 }

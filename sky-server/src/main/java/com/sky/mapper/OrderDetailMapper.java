@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.sky.entity.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -25,4 +26,14 @@ public interface OrderDetailMapper {
      * @CreatedTime: 2024/7/16 14:32
      */
     void insertBatch(List<OrderDetail> orderDetailList);
+
+    /**
+     * @Description: 根据订单id查询订单明细
+     * @Param: orderId      {java.lang.Long}
+     * @Return: java.util.List<com.sky.entity.OrderDetail>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 18:14
+     */
+    @Select("select * from order_detail where order_id = #{orderId}")
+    List<OrderDetail> getByOrderId(Long orderId);
 }
