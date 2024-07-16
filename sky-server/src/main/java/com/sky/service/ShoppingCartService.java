@@ -32,4 +32,13 @@ public interface ShoppingCartService {
      * @CreatedTime: 2024/7/16 12:12
      */
     List<ShoppingCart> showShoppingCart();
+
+    /**
+     * @Description: 清空购物车
+     * @Param:       {}
+     * @Return: java.lang.Object
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 12:20
+     */
+    void cleanShoppingCart();
 }
