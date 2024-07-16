@@ -41,4 +41,13 @@ public interface ShoppingCartService {
      * @CreatedTime: 2024/7/16 12:20
      */
     void cleanShoppingCart();
+
+    /**
+     * @Description: 删除购物车中的一个商品
+     * @Param: shoppingCartDTO      {com.sky.dto.ShoppingCartDTO}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 12:32
+     */
+    void subShoppingCart(ShoppingCartDTO shoppingCartDTO);
 }
