@@ -1,6 +1,9 @@
 package com.sky.service;
 
 import com.sky.dto.ShoppingCartDTO;
+import com.sky.entity.ShoppingCart;
+
+import java.util.List;
 
 /**
  * @Program: sky-take-out
@@ -20,4 +23,13 @@ public interface ShoppingCartService {
      * @CreatedTime: 2024/7/15 21:54
      */
     void addShoppingCart(ShoppingCartDTO shoppingCartDTO);
+
+    /**
+     * @Description: 查看购物车列表
+     * @Param:       {}
+     * @Return: java.util.List<com.sky.entity.ShoppingCart>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/16 12:12
+     */
+    List<ShoppingCart> showShoppingCart();
 }
