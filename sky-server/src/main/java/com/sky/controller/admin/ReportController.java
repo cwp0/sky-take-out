@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 
 /**
@@ -109,6 +110,19 @@ public class ReportController {
         log.info("top10销量的商品：begin{}, end{}", begin, end);
         SalesTop10ReportVO top10 = reportService.getSalesTop10(begin, end);
         return Result.success(top10);
+    }
+
+    /**
+     * @Description: 导出报表
+     * @Param: response      {javax.servlet.http.HttpServletResponse}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 20:49
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出报表")
+    public void export(HttpServletResponse response) {
+        reportService.exportBusinessData(response);
     }
 
 }
