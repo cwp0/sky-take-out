@@ -1,5 +1,6 @@
 package com.sky.service;
 
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 
@@ -35,4 +36,14 @@ public interface ReportService {
      * @CreatedTime: 2024/7/17 16:35
      */
     UserReportVO getUserStatistics(LocalDate begin, LocalDate end);
+
+    /**
+     * @Description: 统计指定时间范围内的订单数据
+     * @Param: begin      {java.time.LocalDate}
+     * @Param: end      {java.time.LocalDate}
+     * @Return: com.sky.vo.OrderReportVO
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 17:05
+     */
+    OrderReportVO getOrdersStatistics(LocalDate begin, LocalDate end);
 }

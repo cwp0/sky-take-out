@@ -89,4 +89,14 @@ public interface OrderMapper {
      * @CreatedTime: 2024/7/17 15:30
      */
     Double sumByMap(Map map);
+
+    /**
+     * @Description: 根据动态条件map统计订单数量
+     * @Param: map      {java.util.Map}
+     * @Return: java.lang.Integer
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 17:13
+     */
+    Integer countByMap(Map map);
+    
 }

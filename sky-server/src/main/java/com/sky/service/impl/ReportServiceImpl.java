@@ -5,6 +5,7 @@ import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
@@ -127,6 +128,59 @@ public class ReportServiceImpl implements ReportService {
         userReportVO.setNewUserList(StringUtils.join(newUserList, ","));
         userReportVO.setTotalUserList(StringUtils.join(totalUserList, ","));
         return userReportVO;
+    }
+
+    /**
+     * @Description: 统计指定时间范围内的订单数据
+     * @Param: begin      {java.time.LocalDate}
+     * @Param: end      {java.time.LocalDate}
+     * @Return: com.sky.vo.OrderReportVO
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 17:06
+     */
+    @Override
+    public OrderReportVO getOrdersStatistics(LocalDate begin, LocalDate end) {
+        OrderReportVO orderReportVO = new OrderReportVO();
+        // 获取从begin到end的日期列表，存入dateList
+        List<LocalDate> dateList = new ArrayList<>();
+        dateList.add(begin);
+        while (!begin.equals(end)) {
+            // 计算指定日期的后一天
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+        String join = StringUtils.join(dateList, ",");
+        orderReportVO.setDateList(join);
+
+        // 每天的订单总数 select count(id) from orders where create_time > beginTime and create_time < endTime
+        List<Integer> totalOrderList = new ArrayList<>();
+        // 每天的有效订单数 select count(id) from orders where create_time > beginTime and create_time < endTime and status = 5
+        List<Integer> validOrderList = new ArrayList<>();
+
+        for (LocalDate date : dateList) {
+            LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN); // data这天开始的时刻
+            LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);  // data这天结束的时刻
+
+            Map map = new HashMap();
+            map.put("begin", beginTime);
+            map.put("end", endTime);
+            Integer todayTotalOrder = orderMapper.countByMap(map);
+            totalOrderList.add(todayTotalOrder);
+
+            map.put("status", Orders.COMPLETED);
+            Integer todayValidOrder = orderMapper.countByMap(map);
+            validOrderList.add(todayValidOrder);
+        }
+        orderReportVO.setOrderCountList(StringUtils.join(totalOrderList, ","));
+        orderReportVO.setValidOrderCountList(StringUtils.join(validOrderList, ","));
+        Integer total = totalOrderList.stream().reduce(Integer::sum).get();
+        Integer valid = validOrderList.stream().reduce(Integer::sum).get();
+        orderReportVO.setTotalOrderCount(total);
+        orderReportVO.setValidOrderCount(valid);
+        double rate = total == 0.0 ? 0.0 : (double) valid / total;
+        orderReportVO.setOrderCompletionRate(rate);
+
+        return orderReportVO;
     }
 
 }
