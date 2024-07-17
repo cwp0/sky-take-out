@@ -128,4 +128,12 @@ public interface OrderService {
      */
     void complete(Long id);
 
+    /**
+     * @Description: 用户催单
+     * @Param: id      {java.lang.Long}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 14:18
+     */
+    void reminder(Long id);
 }

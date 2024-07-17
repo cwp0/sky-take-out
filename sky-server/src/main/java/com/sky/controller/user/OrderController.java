@@ -109,5 +109,12 @@ public class OrderController {
         return Result.success();
     }
 
+    @ApiOperation("用户催单")
+    @GetMapping("/reminder")
+    public Result reminder(@PathVariable("id") Long id) {
+        orderService.reminder(id);
+        return Result.success();
+    }
+
 }
 

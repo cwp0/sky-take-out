@@ -610,5 +610,30 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * @Description: 用户催单
+     * @Param: id      {java.lang.Long}
+     * @Return: void
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 14:19
+     */
+    @Override
+    public void reminder(Long id) {
+        // 根据id查询订单，确认订单是否存在
+        Orders ordersDB = orderMapper.getById(id);
+        if (ordersDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Map map = new HashMap();
+        map.put("type", "2"); // 1表示来单提醒，2表示用户催单
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "用户催单，请尽快处理。订单号：" + ordersDB.getNumber());
+        String json = JSON.toJSONString(map);
+        // 通过WebSocket向商家端推送消息
+        webSocketServer.sendToAllClient(json);
+
+    }
+
 }
 
