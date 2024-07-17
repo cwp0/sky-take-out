@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.github.pagehelper.Page;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * @Program: sky-take-out
  * @Package: com.sky.mapper
@@ -65,5 +68,16 @@ public interface OrderMapper {
      */
     @Select("select count(id) from orders where status = #{status}")
     Integer countStatus(Integer status);
+
+    /**
+     * @Description: 根据状态和下单时间查询订单  select * from orders where status = ? and order_time < (当前时间 - 15分钟)
+     * @Param: status      {java.lang.Integer}
+     * @Param: orderTime      {java.time.LocalDateTime}
+     * @Return: java.util.List<com.sky.entity.Orders>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 13:14
+     */
+    @Select("select * from orders where status = #{status} and order_time < #{orderTime}")
+    List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime); // LT: less than
 
 }

@@ -63,6 +63,7 @@ sky:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
-  shop: 南京市玄武区孝陵卫街道200号南京理工大学
+  shop:
+    address: 南京市玄武区孝陵卫街道200号南京理工大学
   baidu:
     ak: ${sky.baidu.ak}
