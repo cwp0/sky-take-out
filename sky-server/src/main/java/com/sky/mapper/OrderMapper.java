@@ -8,6 +8,7 @@ import com.github.pagehelper.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Program: sky-take-out
@@ -80,4 +81,12 @@ public interface OrderMapper {
     @Select("select * from orders where status = #{status} and order_time < #{orderTime}")
     List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime); // LT: less than
 
+    /**
+     * @Description: 根据动态条件统计营业额数据  select sum(amount) from orders where order_time > beginTime and order_time < endTime and status = 5
+     * @Param: map      {java.util.Map}
+     * @Return: java.lang.Double
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 15:30
+     */
+    Double sumByMap(Map map);
 }
