@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.result.Result;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
@@ -72,6 +73,14 @@ public class ReportController {
         return Result.success(userStatistics);
     }
 
+    /**
+     * @Description: 订单统计
+     * @Param: begin      {java.time.LocalDate}
+     * @Param: end      {java.time.LocalDate}
+     * @Return: com.sky.result.Result<com.sky.vo.OrderReportVO>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 18:38
+     */
     @ApiOperation("订单统计")
     @GetMapping("/ordersStatistics")
     public Result<OrderReportVO> ordersStatistics(
@@ -81,6 +90,25 @@ public class ReportController {
         log.info("订单统计：begin{}, end{}", begin, end);
         OrderReportVO orderStatistics = reportService.getOrdersStatistics(begin, end);
         return Result.success(orderStatistics);
+    }
+
+    /**
+     * @Description: top10销量的商品
+     * @Param: begin      {java.time.LocalDate}
+     * @Param: end      {java.time.LocalDate}
+     * @Return: com.sky.result.Result<com.sky.vo.SalesTop10ReportVO>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 18:39
+     */
+    @GetMapping("/top10")
+    @ApiOperation("top10销量的商品")
+    public Result<SalesTop10ReportVO> top10(
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end
+    ) {
+        log.info("top10销量的商品：begin{}, end{}", begin, end);
+        SalesTop10ReportVO top10 = reportService.getSalesTop10(begin, end);
+        return Result.success(top10);
     }
 
 }

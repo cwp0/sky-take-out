@@ -1,17 +1,20 @@
 package com.sky.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Program: sky-take-out
@@ -182,6 +186,37 @@ public class ReportServiceImpl implements ReportService {
 
         return orderReportVO;
     }
+
+    /**
+     * @Description: 统计指定时间范围内的销售额前10的菜品数据
+     * @Param: begin      {java.time.LocalDate}
+     * @Param: end      {java.time.LocalDate}
+     * @Return: com.sky.vo.SalesTop10ReportVO
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 18:41
+     */
+    @Override
+    @Transactional // 需要查询订单表和订单详情表，需要保证数据的一致性，开启事务
+    public SalesTop10ReportVO getSalesTop10(LocalDate begin, LocalDate end) {
+        SalesTop10ReportVO salesTop10ReportVO = new SalesTop10ReportVO();
+        // select name,sum(od.number) num from order_detail od, orders o where od.order_id = o.id and o.status = 5 and o.order_time > ? and o.order_time < ? group by name order by num desc limit 10
+
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+        List<GoodsSalesDTO> salesTop10 = orderMapper.getSalesTop10(beginTime, endTime);
+
+        List<String> names = salesTop10.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
+        String nameList = StringUtils.join(names, ",");
+        salesTop10ReportVO.setNameList(nameList);
+
+        List<Integer> numbers = salesTop10.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
+        String numberList = StringUtils.join(numbers, ",");
+        salesTop10ReportVO.setNumberList(numberList);
+
+        return salesTop10ReportVO;
+    }
+
 
 }
 

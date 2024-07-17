@@ -1,11 +1,13 @@
 package com.sky.mapper;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.github.pagehelper.Page;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -98,5 +100,16 @@ public interface OrderMapper {
      * @CreatedTime: 2024/7/17 17:13
      */
     Integer countByMap(Map map);
+
+    /**
+     * @Description: 查询指定时间范围内的销售额前10的商品
+     * @Param: begin      {java.time.LocalDateTime}
+     * @Param: end      {java.time.LocalDateTime}
+     * @Return: java.util.List<com.sky.dto.GoodsSalesDTO>
+     * @Author: cwp0
+     * @CreatedTime: 2024/7/17 19:08
+     */
+    List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
+
     
 }
