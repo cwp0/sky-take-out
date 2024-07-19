@@ -30,6 +30,27 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
     },
     {
+        path: '/c',
+        name: 'c',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Container/ContainerVue.vue'),
+        redirect: '/c/p1',
+        // 嵌套路由(子路由)，对应的组件会展示在当前组件内部
+        children: [
+            {
+                path: '/c/p1',
+                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P1Vue.vue')
+            },
+            {
+                path: '/c/p2',
+                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P2Vue.vue')
+            },
+            {
+                path: '/c/p3',
+                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P3Vue.vue')
+            },
+        ]
+    },
+    {
         path: '/404',
         name: '404',
         component: () => import(/* webpackChunkName: "about" */ '../views/404View.vue')

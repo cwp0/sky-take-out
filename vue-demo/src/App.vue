@@ -5,6 +5,7 @@
       <!--   路由链接组件   -->
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
+      <router-link to="/c">C</router-link> |
       <router-link to="/test">Test</router-link> |  <!--  路由跳转有两种，一种是标签式，另一种是编程式  -->
       <input type="button" value="编程式路由跳转" @click="jump()" />
     </nav>
