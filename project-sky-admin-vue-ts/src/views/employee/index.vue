@@ -41,7 +41,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="small">修改</el-button>
-            <el-button type="text" size="small">{{scope.row.status === 0 ? '启用' : '禁用'}}</el-button>
+            <el-button type="text" size="small" @click="handleStartOrStop(scope.row)">{{scope.row.status === 0 ? '启用' : '禁用'}}</el-button>
             <el-button type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -60,7 +60,7 @@
   </div>
 </template>
 <script lang="ts">
-import {getEmployeeList} from '@/api/employee'
+import {getEmployeeList, enableOrDisableEmployee} from '@/api/employee'
 
 export default  {
   data() {
@@ -76,6 +76,41 @@ export default  {
     this.pageQuery()
   },
   methods: {
+    // 启用或禁用员工账号
+    handleStartOrStop(row: any) {
+      if (row.username === 'admin') {
+        this.$message.error('admin为系统的管理员账号，不能更改状态!')
+        return
+      }
+
+      // alert(`操作员工：${row.id}，状态：${row.status === 1 ? '启用' : '禁用'}`)
+
+      // 弹出确认框，提示用户是否确认修改员工账号状态
+      this.$confirm('确认要修改当前员工的状态吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 需要构造和row.id相反的状态值，调用后端接口，修改员工账号状态
+        const params = {
+          id: row.id,
+          status: row.status === 1 ? 0 : 1
+        }
+        enableOrDisableEmployee(params).then(res => {
+          if (res.data.code === 1) {
+            this.$message.success('修改成功')
+            this.pageQuery()
+          }
+        }).catch(err => {
+          this.$message.error('请求出错了' + err.message)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        });
+      });
+    },
     // 页码page发生变化时触发
     handleCurrentChange(val: number) {
       this.page = val

@@ -30,3 +30,10 @@ export const getEmployeeList = (params: any) =>
     'method': 'get',
     'params': params // key和value一样的时候可以简写
   })
+
+export const enableOrDisableEmployee = (params: any) =>
+  request({
+    'url': `/employee/status/${params.status}`,
+    'method': 'post',
+    'params': {id: params.id}
+  })
