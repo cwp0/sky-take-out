@@ -19,3 +19,14 @@ export const login = (data: any) =>
    'method': 'post',
    params
  })
+
+/**
+ * 分页查询
+ * @param params
+ */
+export const getEmployeeList = (params: any) =>
+  request({
+    'url': '/employee/page',
+    'method': 'get',
+    'params': params // key和value一样的时候可以简写
+  })

@@ -90,7 +90,7 @@ const router = new Router({
             hidden: true
           }
         },
-        
+
         {
           path: "category",
           component: () => import("@/views/category/index.vue"),
@@ -107,7 +107,7 @@ const router = new Router({
             icon: "icon-employee"
           }
         },
-        
+
         {
           path: "/employee/add",
           component: () => import("@/views/employee/addEmployee.vue"),
@@ -116,7 +116,7 @@ const router = new Router({
             hidden: true
           }
         },
-        
+
         {
           path: "/setmeal/add",
           component: () => import("@/views/setmeal/addSetmeal.vue"),

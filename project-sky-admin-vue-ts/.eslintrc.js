@@ -45,6 +45,8 @@ module.exports = {
     'standard/object-curly-even-spacing': 0,
   },
   parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
     parser: '@typescript-eslint/parser'
   },
   overrides: [
