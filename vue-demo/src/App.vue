@@ -8,6 +8,7 @@
       <router-link to="/c">C</router-link> |
       <router-link to="/test">Test</router-link> |  <!--  路由跳转有两种，一种是标签式，另一种是编程式  -->
       <input type="button" value="编程式路由跳转" @click="jump()" />
+      {{$store.state.name}} &nbsp; <input type="button" value="登录" @click="login()" /> &nbsp; <input type="button" value="sky-take-out-login" @click="loginBySky()" /> &nbsp; <input type="button" value="退出" @click="logout()" />
     </nav>
     <!--   路由视图组件：占位符，视图展示的位置   -->
     <router-view/>
@@ -19,6 +20,16 @@ export default {
   methods: {
     jump() {
       this.$router.push('/about')
+    },
+    login() {
+      // mutations中声明的函数必须通过下面的方式调用
+      this.$store.commit("setName", "cwp0")
+    },
+    logout() {
+      this.$store.commit("setName", "未登录用户")
+    },
+    loginBySky() {
+      this.$store.dispatch("setNameByAxios")
     }
   }
 }

@@ -6,9 +6,9 @@
  * @Version: 1.0
  */
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue"
+import VueRouter from "vue-router"
+import HomeView from "../views/HomeView.vue"
 
 // 路由器
 Vue.use(VueRouter)
@@ -17,47 +17,47 @@ Vue.use(VueRouter)
 // 路由表
 const routes = [
     {
-        path: '/',
-        name: 'home',
+        path: "/",
+        name: "home",
         component: HomeView
     },
     {
-        path: '/about',
-        name: 'about',
+        path: "/about",
+        name: "about",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited. 动态导入，按需加载
-        component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+        component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue")
     },
     {
-        path: '/c',
-        name: 'c',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Container/ContainerVue.vue'),
-        redirect: '/c/p1',
+        path: "/c",
+        name: "c",
+        component: () => import(/* webpackChunkName: "about" */ "../views/Container/ContainerVue.vue"),
+        redirect: "/c/p1",
         // 嵌套路由(子路由)，对应的组件会展示在当前组件内部
         children: [
             {
-                path: '/c/p1',
-                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P1Vue.vue')
+                path: "/c/p1",
+                component: () => import(/* webpackChunkName: "about" */ "../views/Container/P1Vue.vue")
             },
             {
-                path: '/c/p2',
-                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P2Vue.vue')
+                path: "/c/p2",
+                component: () => import(/* webpackChunkName: "about" */ "../views/Container/P2Vue.vue")
             },
             {
-                path: '/c/p3',
-                component: () => import(/* webpackChunkName: "about" */ '../views/Container/P3Vue.vue')
+                path: "/c/p3",
+                component: () => import(/* webpackChunkName: "about" */ "../views/Container/P3Vue.vue")
             },
         ]
     },
     {
-        path: '/404',
-        name: '404',
-        component: () => import(/* webpackChunkName: "about" */ '../views/404View.vue')
+        path: "/404",
+        name: "404",
+        component: () => import(/* webpackChunkName: "about" */ "../views/404View.vue")
     },
     {
-        path: '*',
-        redirect: '/404'
+        path: "*",
+        redirect: "/404"
     }
 ]
 
