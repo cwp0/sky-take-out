@@ -25,7 +25,7 @@
         <el-button type="primary" style="margin-left: 25px" @click="pageQuery()">查询</el-button>
         <div style="float: right">
           <el-button type="danger" @click="handleDelete('Banch')">批量删除</el-button>
-          <el-button type="primary" >+新建套餐</el-button>
+          <el-button type="primary" @click="handleAdd">+新建套餐</el-button>
         </div>
       </div>
       <el-table :data="records" stripe class="tableBox" @selection-change="handleSelectionChange">
@@ -103,6 +103,10 @@ export default {
     this.pageQuery()
   },
   methods: {
+    //新增套餐，跳转到新增页面（组件）
+    handleAdd() {
+      this.$router.push('/setmeal/add')
+    },
     // 复选框选中事件
     handleSelectionChange(val) {
       this.multipleSelections = val
