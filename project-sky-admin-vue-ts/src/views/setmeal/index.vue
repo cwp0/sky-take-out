@@ -24,7 +24,7 @@
         </el-select>
         <el-button type="primary" style="margin-left: 25px" @click="pageQuery()">查询</el-button>
         <div style="float: right">
-          <el-button type="danger" >批量删除</el-button>
+          <el-button type="danger" @click="handleDelete('Banch')">批量删除</el-button>
           <el-button type="primary" >+新建套餐</el-button>
         </div>
       </div>
@@ -52,7 +52,7 @@
             <el-button type="text" size="small" @click="handleStartOrStop(scope.row)">
               {{ scope.row.status == '1' ? '停售' : '启售' }}
             </el-button>
-            <el-button type="text" size="small" @click="handleDelete('S',scope.row.id)"> 删除 </el-button>
+            <el-button type="text" size="small" @click="handleDelete('Single',scope.row.id)"> 删除 </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,8 +69,7 @@
 
 <script lang="ts">
 import {getCategoryByType} from '@/api/category'
-import {getSetmealPage, enableOrDisableSetmeal} from '@/api/setMeal'
-import { enableOrDisableEmployee } from '@/api/employee'
+import {getSetmealPage, enableOrDisableSetmeal, deleteSetmeal} from '@/api/setMeal'
 
 export default {
   data() {
@@ -89,7 +88,8 @@ export default {
         value: '1',
         label: '起售'
       }],
-      status: '' // 售卖状态
+      status: '', // 售卖状态
+      multipleSelections: '' // 选中的多个套餐
     }
   },
   created() {
@@ -103,6 +103,44 @@ export default {
     this.pageQuery()
   },
   methods: {
+    // 复选框选中事件
+    handleSelectionChange(val) {
+      this.multipleSelections = val
+    },
+    // 删除套餐
+    handleDelete(type: string, id: string) {
+      if (type === 'Banch' && this.multipleSelections.length === 0) {
+        this.$message.warning('请选择要删除的套餐！')
+        return
+      }
+      // 弹出确认框，提示用户是否确认
+      this.$confirm('确认要调整当前套餐的状态吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param = ''
+        if (type === 'Banch') {
+          // 批量删除套餐
+          const arr = new Array // 放置选中的套餐id
+          this.multipleSelections.forEach(item => {
+            arr.push(item.id)
+          })
+          param = arr.join(',')
+        } else {
+          // 删除单一套餐
+          param = id
+        }
+        deleteSetmeal(param).then(res => {
+          if (res.data.code === 1) {
+            this.$message.success('删除成功！')
+            this.pageQuery()
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      })
+    },
     // 套餐的起售停售
     handleStartOrStop(row) {
       // 构造请求参数
@@ -110,7 +148,7 @@ export default {
         id: row.id,
         status: row.status === 0 ? 1 : 0
       }
-      // 弹出确认框，提示用户是否确认修改员工账号状态
+      // 弹出确认框，提示用户是否确认
       this.$confirm('确认要调整当前套餐的状态吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
