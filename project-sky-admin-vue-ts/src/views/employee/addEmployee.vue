@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import {addEmployee} from '@/api/employee';
+import {addEmployee, queryEmployeeById, updateEmployee} from '@/api/employee';
 
 export default {
   data() {
     return {
-      optType: 'add', // 'add' or 'edit
+      optType: '', // 'add' or 'update'
       ruleForm: {
         name: '',
         username: '',
@@ -76,24 +76,48 @@ export default {
       }
     };
   },
+  created() {
+    this.optType = this.$route.query.id ? 'update' : 'add';
+    if (this.optType === 'update') {
+      // 修改操作，需要根据id查询员工信息用于页面回显
+      queryEmployeeById(this.$route.query.id).then(res => {
+        if (res.data.code === 1) {
+          this.ruleForm = res.data.data;
+        }
+      })
+    }
+  },
   methods: {
     submitForm(formName, isContinue) {
       // 进行表单校验
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 表单校验通过，发起Ajax请求，将数据提交到后端
-          addEmployee(this.ruleForm).then(res => {
-            if (res.data.code === 1) {
-              this.$message.success('员工添加成功');
-              if (isContinue) {
-                this.resetForm(formName);
+          if (this.optType === 'add') {
+            // 新增员工操作
+            addEmployee(this.ruleForm).then(res => {
+              if (res.data.code === 1) {
+                this.$message.success('员工添加成功');
+                if (isContinue) {
+                  this.resetForm(formName);
+                } else {
+                  this.$router.push('/employee');
+                }
               } else {
-                this.$router.push('/employee');
+                this.$message.error(res.data.msg);
               }
-            } else {
-              this.$message.error(res.data.msg);
-            }
-          })
+            })
+          } else {
+            // 修改员工操作
+            updateEmployee(this.ruleForm).then(res => {
+              if (res.data.code === 1) {
+                this.$message.success('员工修改成功');
+                this.$router.push('/employee');
+              } else {
+                this.$message.error(res.data.msg);
+              }
+            })
+          }
         }
       });
     },

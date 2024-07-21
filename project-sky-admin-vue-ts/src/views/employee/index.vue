@@ -40,7 +40,7 @@
           prop="options"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small">修改</el-button>
+            <el-button type="text" size="small" @click="handleUpdateEmployee(scope.row)">修改</el-button>
             <el-button type="text" size="small" @click="handleStartOrStop(scope.row)">{{scope.row.status === 0 ? '启用' : '禁用'}}</el-button>
             <el-button type="text" size="small">删除</el-button>
           </template>
@@ -76,6 +76,15 @@ export default  {
     this.pageQuery()
   },
   methods: {
+    // 修改员工
+    handleUpdateEmployee(row) {
+      if (row.username === 'admin') {
+        this.$message.error('admin为系统的管理员账号，不能修改!')
+        return
+      }
+
+      this.$router.push({path: '/employee/add', query: {id: row.id}}) // 通过地址栏传递参数
+    },
     // 新增员工
     handleAddEmployee() {
       // 通过路由条装到新增员工组件
