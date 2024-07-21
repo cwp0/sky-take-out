@@ -69,7 +69,8 @@
 
 <script lang="ts">
 import {getCategoryByType} from '@/api/category'
-import {getSetmealPage} from '@/api/setMeal'
+import {getSetmealPage, enableOrDisableSetmeal} from '@/api/setMeal'
+import { enableOrDisableEmployee } from '@/api/employee'
 
 export default {
   data() {
@@ -102,6 +103,27 @@ export default {
     this.pageQuery()
   },
   methods: {
+    // 套餐的起售停售
+    handleStartOrStop(row) {
+      // 构造请求参数
+      const params = {
+        id: row.id,
+        status: row.status === 0 ? 1 : 0
+      }
+      // 弹出确认框，提示用户是否确认修改员工账号状态
+      this.$confirm('确认要调整当前套餐的状态吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        enableOrDisableSetmeal(params).then(res => {
+          if (res.data.code === 1) {
+            this.$message.success('售卖状态修改成功！')
+            this.pageQuery()
+          }
+        })
+      })
+    },
     handleSizeChange(val) {
       this.pageSize = val
       this.pageQuery()
