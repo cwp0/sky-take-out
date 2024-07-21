@@ -20,9 +20,9 @@
         </el-form-item>
         <div class="subBox">
           <el-button type="primary" @click="submitForm('ruleForm',false)">保存</el-button>
-          <el-button 
-            v-if="this.optType === 'add'" 
-            type="primary" 
+          <el-button
+            v-if="this.optType === 'add'"
+            type="primary"
             @click="submitForm('ruleForm',true)">保存并继续添加员工
           </el-button>
           <el-button @click="() => this.$router.push('/employee')">返回</el-button>
@@ -33,9 +33,74 @@
 </template>
 
 <script lang="ts">
+import {addEmployee} from '@/api/employee';
 
 export default {
-  
+  data() {
+    return {
+      optType: 'add', // 'add' or 'edit
+      ruleForm: {
+        name: '',
+        username: '',
+        sex: '1',
+        phone: '',
+        idNumber: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入员工姓名', trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: '请输入员工账号', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true,  trigger: 'blur', validator: (rule, value, callback) => {
+              if (value === '' || (!/^1(3|4|5|6|7|8)\d{9}$/.test(value))) {
+                callback(new Error('请输入正确的手机号!'));
+              } else {
+                callback();
+              }
+            }
+          }
+        ],
+        idNumber: [
+          { required: true,  trigger: 'blur', validator: (rule, value, callback) => {
+              if (value === '' || (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/.test(value))) {
+                callback(new Error('请输入正确的身份证号!'));
+              } else {
+                callback();
+              }
+            }
+          }
+        ]
+      }
+    };
+  },
+  methods: {
+    submitForm(formName, isContinue) {
+      // 进行表单校验
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 表单校验通过，发起Ajax请求，将数据提交到后端
+          addEmployee(this.ruleForm).then(res => {
+            if (res.data.code === 1) {
+              this.$message.success('员工添加成功');
+              if (isContinue) {
+                this.resetForm(formName);
+              } else {
+                this.$router.push('/employee');
+              }
+            } else {
+              this.$message.error(res.data.msg);
+            }
+          })
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
 }
 </script>
 

@@ -5,7 +5,7 @@
         <label style="margin-right: 5px">员工姓名:</label>
         <el-input v-model="name" placeholder="请输入员工姓名..." style="width: 15%" />
         <el-button type="primary" style="margin-left: 25px" @click="pageQuery()">查询</el-button>
-        <el-button type="primary" style="float: right">+添加员工</el-button>
+        <el-button type="primary" style="float: right" @click="handleAddEmployee()">+添加员工</el-button>
       </div>
       <el-table
         :data="records"
@@ -76,6 +76,11 @@ export default  {
     this.pageQuery()
   },
   methods: {
+    // 新增员工
+    handleAddEmployee() {
+      // 通过路由条装到新增员工组件
+      this.$router.push({path: '/employee/add'})
+    },
     // 启用或禁用员工账号
     handleStartOrStop(row: any) {
       if (row.username === 'admin') {
